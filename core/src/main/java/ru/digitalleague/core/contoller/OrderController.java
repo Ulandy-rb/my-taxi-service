@@ -20,7 +20,7 @@ public class OrderController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @PostMapping("/orders")
+    @PostMapping("/order-taxi")
     public void addOrder(@RequestBody OrderDetails orderDetails)
     {
         ObjectMapper objectMapper = new ObjectMapper();
