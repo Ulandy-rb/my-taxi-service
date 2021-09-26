@@ -27,18 +27,20 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>4.4.3</version>
                 <configuration>
-                    <changelogSchemaName>${profile.changelogSchemaName}</changelogSchemaName>
-                    <propertyFile>${profile.propertyFile}</propertyFile>
-                    <changeLogFile>${profile.changeLogFile}</changeLogFile>
+                    <propertyFile>src/main/resources/local/liquibase.properties</propertyFile>
+                    <changeLogFile>src/main/resources/master.xml</changeLogFile>
+                    <changelogSchemaName>test</changelogSchemaName>
                 </configuration>
             </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 
 <profiles>
