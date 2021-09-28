@@ -17,7 +17,6 @@ public interface TaxiInfoMapper {
     @Select("select count(1) from taxi_drive_info")
     int getCount();
 
-
     @Results(id = "drivers", value = {
             @Result(property = "driverId", column = "driver_id"),
             @Result(property = "lastName", column = "last_name"),
@@ -29,4 +28,10 @@ public interface TaxiInfoMapper {
     })
     @Select("SELECT driver_id, last_name, first_name, middle_name, level, car_model, create_dttm FROM taxi_drive_info")
     List<TaxiDriverInfoModel> getAllDrivers();
+
+    int insert(TaxiDriverInfoModel record);
+
+    TaxiDriverInfoModel selectByPrimaryKey(Long driverId);
+
+    int updateByPrimaryKey(TaxiDriverInfoModel record);
 }
