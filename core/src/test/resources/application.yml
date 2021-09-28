@@ -1,0 +1,3 @@
+application:
+  rabbit:
+    enable: false
