@@ -33,7 +33,7 @@
         where driver_id = #{driverId,jdbcType=BIGINT}
     </select>
 
-    <select id="selectByLastName" parameterType="java.lang.String" resultMap="taxiDriver">
+    <select id="selectByLastName" parameterType="java.lang.String" resultMap="taxiDriver" useCache="false">
         <!--@mbg.generated-->
         select
         <include refid="Base_Column_List" />
