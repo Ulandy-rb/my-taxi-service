@@ -1,4 +1,4 @@
-create sequence car_seq start 1;
+create sequence if not exists car_seq start 1;
 
 create table if not exists car
 (
