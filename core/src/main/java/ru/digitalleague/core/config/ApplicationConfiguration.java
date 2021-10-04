@@ -19,37 +19,6 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfiguration {
 
     @Bean
-    public ConnectionFactory connectionFactory() {
-        return new CachingConnectionFactory("localhost");
-    }
-
-    @Bean
-    public RabbitAdmin ampqAdmin() {
-        return new RabbitAdmin(connectionFactory());
-    }
-
-    @Bean
-    public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
-    }
-
-    /**
-     * Очередь для приема заказов.
-     */
-    @Bean
-    public Queue myQueue1() {
-        return new Queue("order");
-    }
-
-    /**
-     * Очередь для приема результатов поездки.
-     */
-    @Bean
-    public Queue myQueue2() {
-        return new Queue("trip-result");
-    }
-
-    @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.postgresql.Driver");
