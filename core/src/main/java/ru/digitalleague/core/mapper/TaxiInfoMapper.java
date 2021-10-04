@@ -17,7 +17,6 @@ public interface TaxiInfoMapper {
     @Select("select count(1) from taxi_drive_info")
     int getCount();
 
-
     @Results(id = "drivers", value = {
             @Result(property = "driverId", column = "driver_id"),
             @Result(property = "lastName", column = "last_name"),

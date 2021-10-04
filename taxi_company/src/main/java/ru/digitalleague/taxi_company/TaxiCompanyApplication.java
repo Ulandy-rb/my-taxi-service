@@ -1,18 +1,17 @@
-package ru.digitalleague.core;
+package ru.digitalleague.taxi_company;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-import org.springframework.retry.annotation.EnableRetry;
 
-import ru.digitalleague.core.config.ApplicationConfiguration;
+import ru.digitalleague.taxi_company.config.ApplicationConfiguration;
 
 @SpringBootApplication
 @Import(ApplicationConfiguration.class)
-public class CoreApplication {
+public class TaxiCompanyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CoreApplication.class, args);
+        SpringApplication.run(TaxiCompanyApplication.class, args);
     }
 
 }

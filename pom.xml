@@ -21,6 +21,7 @@
         <module>core</module>
         <module>bom</module>
         <module>migration</module>
+        <module>taxi_company</module>
     </modules>
 
     <dependencies>
