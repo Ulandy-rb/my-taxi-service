@@ -54,6 +54,12 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="2021-10-08 19:07:00" author="outarova">
+        <sqlFile path="sql/core/alter_taxi_drive_info_add_busyness.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="sql/core/rollback/alter_taxi_drive_info_add_busyness_rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
 
 
 
