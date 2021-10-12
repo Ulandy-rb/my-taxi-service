@@ -46,4 +46,6 @@ public interface OrderMapper {
     @Update("update orders set driver_id = #{driverId} where order_id = #{orderId}")
     void updateOrderDriverById(Long orderId, Long driverId);
 
+    @Select("select * from orders where order_id = #{Id}")
+    OrderModel getOrderById(Long Id);
 }

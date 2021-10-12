@@ -17,7 +17,12 @@ public class TaxiInfoServiceImpl implements TaxiInfoService {
     }
 
     @Override
-    public void serDriverBusy(Long id) {
+    public void setDriverBusy(Long id) {
+        mapper.setBusy(id);
+    }
+
+    @Override
+    public void setDriverFree(Long id) {
         mapper.setFree(id);
     }
 }

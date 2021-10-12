@@ -32,6 +32,7 @@ public class TaxiController {
     public ResponseEntity<String> completeTrip(@RequestParam(value = "order_id") Long order_id) {
         //amqpTemplate.convertAndSend("trip-result", message);
         orderService.updateOrderEnd(order_id);
+        taxiInfoService.setDriverFree(orderService.getOrder(order_id).getDriverId());
         return ResponseEntity.ok("Услуга оказана");
     }
 
@@ -47,7 +48,7 @@ public class TaxiController {
 
         TaxiDriverInfoModel driver = taxiInfoService.findDriver(orderDetails.getCity(), orderDetails.getCarModel(), orderDetails.getLevel());
         orderService.updateOrderDriver(order, driver.getDriverId());
-        taxiInfoService.serDriverBusy(driver.getDriverId());
+        taxiInfoService.setDriverBusy(driver.getDriverId());
         return ResponseEntity.ok(driver);
     }
 }
