@@ -21,10 +21,13 @@ public interface TaxiInfoMapper {
             @Result(property = "driverId", column = "driver_id"),
             @Result(property = "lastName", column = "last_name"),
             @Result(property = "firstName", column = "first_name"),
-            @Result(property = "middleName", column = "middle_name"),
             @Result(property = "level", column = "level"),
             @Result(property = "carModel", column = "car_model"),
-            @Result(property = "createDttm", column = "create_dttm")
+            @Result(property = "createDttm", column = "create_dttm"),
+            @Result(property = "cityId", column = "city_id"),
+            @Result(property = "rating", column = "rating"),
+            @Result(property = "minuteCost", column = "minute_cost"),
+            @Result(property = "busyness", column = "busyness")
     })
     @Select("SELECT driver_id, last_name, first_name, middle_name, level, car_model, create_dttm FROM taxi_drive_info")
     List<TaxiDriverInfoModel> getAllDrivers();
@@ -42,4 +45,7 @@ public interface TaxiInfoMapper {
     int updateByPrimaryKey(TaxiDriverInfoModel record);
 
     List<TaxiDriverInfoModel> selectByLastName(String lastName);
+
+    @Select("SELECT port FROM city_queue where name = #{cityName}")
+    int getPortByCity(String city);
 }

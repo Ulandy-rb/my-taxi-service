@@ -14,10 +14,14 @@ import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.web.client.RestTemplate;
 import ru.digitalleague.taxi_company.listener.OrderListener;
+
+import java.time.Duration;
 
 @Configuration
 @Slf4j
@@ -83,5 +87,14 @@ public class ApplicationConfiguration {
         simpleMessageListenerContainer.setMessageListener(new OrderListener());
         return simpleMessageListenerContainer;
 
+    }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+
+        return builder
+                .setConnectTimeout(Duration.ofMillis(3000))
+                .setReadTimeout(Duration.ofMillis(3000))
+                .build();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import org.springframework.web.client.RestTemplate;
 import ru.digitalleague.core.mapper.TaxiInfoMapper;
 import ru.digitalleague.core.model.OrderDetails;
 import ru.digitalleague.core.api.TaxiService;
@@ -24,6 +25,7 @@ public class TaxiServiceImpl implements TaxiService {
     @Autowired
     private TaxiInfoMapper mapper;
 
+
     @Override
     public String notifyTaxi(OrderDetails orderDetails) {
 
@@ -38,8 +40,13 @@ public class TaxiServiceImpl implements TaxiService {
 
         if (ObjectUtils.isEmpty(queueByCity)) return "Заказ не принят, город не известен";
 
-        amqpTemplate.convertAndSend(queueByCity, message);
+        //amqpTemplate.convertAndSend(queueByCity, message);
 
         return "Заказ принят";
+    }
+
+    @Override
+    public int getPort(OrderDetails orderDetails) {
+        return mapper.getPortByCity(orderDetails.getCity());
     }
 }

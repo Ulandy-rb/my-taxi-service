@@ -12,4 +12,6 @@ public interface TaxiService {
      */
     String notifyTaxi(OrderDetails orderDetails);
 
+    int getPort(OrderDetails orderDetails);
+
 }

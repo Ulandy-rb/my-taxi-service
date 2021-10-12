@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.digitalleague.taxi_company.mapper.TaxiInfoMapper">
+    <resultMap id="taxiDriver"
+               type="ru.digitalleague.taxi_company.model.TaxiDriverInfoModel">
+        <id property="driverId" column="driver_id"/>
+        <result property="lastName" column="last_name"/>
+        <result property="firstName" column="first_name"/>
+        <result property="middleName" column="middle_name"/>
+        <result property="level" column="level"/>
+        <result property="carModel" column="car_model"/>
+        <result property="createDttm" column="create_dttm"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        driver_id, last_name, first_name, "level", car_model, create_dttm
+    </sql>
+
+
+</mapper>

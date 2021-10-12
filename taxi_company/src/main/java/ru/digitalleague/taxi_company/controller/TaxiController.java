@@ -3,9 +3,11 @@ package ru.digitalleague.taxi_company.controller;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.digitalleague.taxi_company.model.OrderDetails;
+import ru.digitalleague.taxi_company.model.TaxiDriverInfoModel;
+import ru.digitalleague.taxi_company.service.OrderService;
+import ru.digitalleague.taxi_company.service.TaxiInfoService;
 
 /**
  * Контроллер получающий информацию о поездке.
@@ -16,16 +18,36 @@ public class TaxiController {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private TaxiInfoService taxiInfoService;
+
     /**
      * Метод получает инфо о завершении поездки.
-     * @param message
+     * @param order_id
      * */
-    @PostMapping("/trip-complete")
-    public ResponseEntity<String> completeTrip(@RequestBody String message) {
-        System.out.println("Trip is finished");
-
-        amqpTemplate.convertAndSend("trip-result", message);
-
+    @PutMapping("/trip-complete")
+    public ResponseEntity<String> completeTrip(@RequestParam(value = "order_id") Long order_id) {
+        //amqpTemplate.convertAndSend("trip-result", message);
+        orderService.updateOrderEnd(order_id);
         return ResponseEntity.ok("Услуга оказана");
+    }
+
+    @PutMapping("/trip-begin")
+    public ResponseEntity<String> beginTrip(@RequestParam(value = "order_id") Long order_id) {
+        orderService.updateOrderStart(order_id);
+        return ResponseEntity.ok("Поездка началась");
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<TaxiDriverInfoModel> findDriver(@RequestBody OrderDetails orderDetails) {
+        Long order = orderService.createOrder(orderDetails.getClientNumber());
+
+        TaxiDriverInfoModel driver = taxiInfoService.findDriver(orderDetails.getCity(), orderDetails.getCarModel(), orderDetails.getLevel());
+        orderService.updateOrderDriver(order, driver.getDriverId());
+        taxiInfoService.serDriverBusy(driver.getDriverId());
+        return ResponseEntity.ok(driver);
     }
 }

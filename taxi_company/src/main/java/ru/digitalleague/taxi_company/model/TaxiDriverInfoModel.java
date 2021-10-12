@@ -1,10 +1,17 @@
 package ru.digitalleague.taxi_company.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.Date;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaxiDriverInfoModel {
 
     private Long driverId;
@@ -32,5 +39,13 @@ public class TaxiDriverInfoModel {
     /**
      * Дата создания.
      */
-    private OffsetDateTime createDttm;
+    private Date createDttm;
+
+    private Long cityId;
+
+    private Double rating;
+
+    private int minuteCost;
+
+    private boolean busyness;
 }

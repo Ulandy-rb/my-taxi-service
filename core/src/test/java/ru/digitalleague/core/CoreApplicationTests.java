@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.OffsetDateTime;
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ class CoreApplicationTests {
             .lastName("Иванов")
             .firstName("Иван")
             .level(0)
-            .createDttm(OffsetDateTime.now())
+            .createDttm(new Date())
             .build();
 
     @Test

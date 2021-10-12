@@ -61,6 +61,15 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="2021-10-08 19:08:00" author="outarova">
+        <sqlFile path="sql/core/alter_oder_add_start_and_end.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="sql/core/rollback/alter_oder_add_start_and_end_rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
 
+    <changeSet id="2021-10-08 19:09:00" author="outarova">
+        <sqlFile path="sql/core/alter_order_delete_notnull_driver.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
