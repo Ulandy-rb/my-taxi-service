@@ -6,7 +6,6 @@
         <id property="driverId" column="driver_id"/>
         <result property="lastName" column="last_name"/>
         <result property="firstName" column="first_name"/>
-        <result property="middleName" column="middle_name"/>
         <result property="level" column="level"/>
         <result property="carModel" column="car_model"/>
         <result property="createDttm" column="create_dttm"/>
@@ -16,6 +15,5 @@
         <!--@mbg.generated-->
         driver_id, last_name, first_name, "level", car_model, create_dttm
     </sql>
-
 
 </mapper>

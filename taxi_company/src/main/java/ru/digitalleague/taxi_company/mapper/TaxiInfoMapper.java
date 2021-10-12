@@ -29,6 +29,9 @@ public interface TaxiInfoMapper {
             "WHERE busyness = false AND city_id = " +
             "(SELECT q.city_id FROM city_queue q where q.name = #{city})" +
             "and car_model = #{carModel} and level = #{level})" +
+            "and busyness = false AND city_id = " +
+            "(SELECT q.city_id FROM city_queue q where q.name = #{city})" +
+            "and car_model = #{carModel} and level = #{level}" +
             "fetch first 1 rows only")
     TaxiDriverInfoModel getDriverByCityWithTopRating(String city, String carModel, int level);
 
