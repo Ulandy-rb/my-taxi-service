@@ -34,11 +34,15 @@ public class OrderController {
 
        // String result = taxiService.notifyTaxi(orderDetails);
         if (orderDetails == null) return  ResponseEntity.badRequest().body("Неверный формат данных");
+
+        //Добавить заголовки
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<OrderDetails> request = new HttpEntity<>(orderDetails, headers);
 
+        //Найти порт
         int port = taxiService.getPort(orderDetails);
 
+        //Отправить детали заказа на определенный сервер
         ResponseEntity<TaxiDriverInfoModel> entity = restTemplate.postForEntity("http://localhost:" + port + "/",
                 request,
                 TaxiDriverInfoModel.class);
@@ -68,8 +72,10 @@ public class OrderController {
     public ResponseEntity<String> rateTrip(@RequestParam(value = "rate") Integer rate, @RequestParam(value = "order_id") Long orderId) {
 
         if(rate == null) return ResponseEntity.badRequest().body("Неверный формат данных");
+        //Найти порт по заказу
         int port = taxiService.getPort(orderId);
 
+        //Отправить рейтинг для подсчета
         ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/rate-driver?order_id="
                         + orderId,
                 rate,
