@@ -42,6 +42,7 @@ public class OrderController {
         //Найти порт
         int port = taxiService.getPort(orderDetails);
 
+        if(port==0) return ResponseEntity.badRequest().body("В данном городе такси не обсуживается");
         //Отправить детали заказа на определенный сервер
         ResponseEntity<TaxiDriverInfoModel> entity = restTemplate.postForEntity("http://localhost:" + port + "/",
                 request,
@@ -71,9 +72,10 @@ public class OrderController {
     @PutMapping("/trip-rate")
     public ResponseEntity<String> rateTrip(@RequestParam(value = "rate") Integer rate, @RequestParam(value = "order_id") Long orderId) {
 
-        if(rate == null) return ResponseEntity.badRequest().body("Неверный формат данных");
+        if(rate == null || orderId == null) return ResponseEntity.badRequest().body("Неверный формат данных");
         //Найти порт по заказу
         int port = taxiService.getPort(orderId);
+        if(port==0) return ResponseEntity.badRequest().body("В данном городе такси не обсуживается");
 
         //Отправить рейтинг для подсчета
         ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/rate-driver?order_id="
