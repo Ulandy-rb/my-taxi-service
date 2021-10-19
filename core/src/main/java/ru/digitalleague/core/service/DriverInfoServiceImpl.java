@@ -11,31 +11,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.digitalleague.core.mapper.TaxiInfoMapper;
+import ru.digitalleague.core.api.DriverInfoService;
+import ru.digitalleague.core.mapper.DriverInfoMapper;
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TaxiInfoServiceImpl implements TaxiInfoService {
+public class DriverInfoServiceImpl implements DriverInfoService {
 
-    private final TaxiInfoMapper taxiInfoMapper;
+    private final DriverInfoMapper driverInfoMapper;
 
     @Override
     public int insert(TaxiDriverInfoModel record) {
-        return taxiInfoMapper.insert(record);
+        return driverInfoMapper.insert(record);
     }
 
     @Override
     public TaxiDriverInfoModel selectByPrimaryKey(Long driverId) {
 
-        return taxiInfoMapper.selectByPrimaryKey(driverId);
+        return driverInfoMapper.selectByPrimaryKey(driverId);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public int updateByPrimaryKey(TaxiDriverInfoModel record) {
-        return taxiInfoMapper.updateByPrimaryKey(record);
+        return driverInfoMapper.updateByPrimaryKey(record);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TaxiInfoServiceImpl implements TaxiInfoService {
     public int getByIdAndUpdateLevel(Long driverId) {
         TaxiDriverInfoModel taxiDriverInfoModel = selectByPrimaryKey(driverId);
         taxiDriverInfoModel.setLevel(taxiDriverInfoModel.getLevel() + 1);
-        return taxiInfoMapper.updateByPrimaryKey(taxiDriverInfoModel);
+        return driverInfoMapper.updateByPrimaryKey(taxiDriverInfoModel);
     }
 
     @SneakyThrows
@@ -53,10 +54,10 @@ public class TaxiInfoServiceImpl implements TaxiInfoService {
     public boolean twoSelectByIdWithSleep() {
 
         String lastName = "Иванов";
-        List<TaxiDriverInfoModel> expected = taxiInfoMapper.selectByLastName(lastName);
+        List<TaxiDriverInfoModel> expected = driverInfoMapper.selectByLastName(lastName);
         log.debug("Expected size: {}", expected.size());
         Thread.sleep(5000);
-        List<TaxiDriverInfoModel> actual = taxiInfoMapper.selectByLastName(lastName);
+        List<TaxiDriverInfoModel> actual = driverInfoMapper.selectByLastName(lastName);
         log.debug("Actual size: {}", actual.size());
         return expected.size() == actual.size();
     }

@@ -1,8 +1,8 @@
-package ru.digitalleague.core.service;
+package ru.digitalleague.core.api;
 
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
 
-public interface TaxiInfoService {
+public interface DriverInfoService {
 
     int insert(TaxiDriverInfoModel record);
 
@@ -13,4 +13,5 @@ public interface TaxiInfoService {
     int getByIdAndUpdateLevel(Long driverId);
 
     boolean twoSelectByIdWithSleep();
+
 }

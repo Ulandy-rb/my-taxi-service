@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import org.springframework.web.client.RestTemplate;
-import ru.digitalleague.core.mapper.TaxiInfoMapper;
+import ru.digitalleague.core.mapper.CityMapper;
+import ru.digitalleague.core.mapper.DriverInfoMapper;
 import ru.digitalleague.core.model.OrderDetails;
 import ru.digitalleague.core.api.TaxiService;
 
@@ -23,8 +23,7 @@ public class TaxiServiceImpl implements TaxiService {
     private AmqpTemplate amqpTemplate;
 
     @Autowired
-    private TaxiInfoMapper mapper;
-
+    private CityMapper cityMapper;
 
     @Override
     public String notifyTaxi(OrderDetails orderDetails) {
@@ -36,7 +35,7 @@ public class TaxiServiceImpl implements TaxiService {
             e.printStackTrace();
         }
 
-        String queueByCity = mapper.getQueueByCity(orderDetails.getCity());
+        String queueByCity = cityMapper.getQueueByCity(orderDetails.getCity());
 
         if (ObjectUtils.isEmpty(queueByCity)) return "Заказ не принят, город не известен";
 
@@ -47,6 +46,11 @@ public class TaxiServiceImpl implements TaxiService {
 
     @Override
     public int getPort(OrderDetails orderDetails) {
-        return mapper.getPortByCity(orderDetails.getCity());
+        return cityMapper.getPortByCity(orderDetails.getCity());
+    }
+
+    @Override
+    public int getPort(Long orderId) {
+        return cityMapper.getPortByOrderId(orderId);
     }
 }

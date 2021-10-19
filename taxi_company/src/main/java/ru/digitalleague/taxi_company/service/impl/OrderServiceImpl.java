@@ -35,4 +35,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderModel getOrder(Long orderId) {
         return mapper.getOrderById(orderId);
     }
+
+    @Override
+    public Integer gerTripDuration(Long orderId) {
+        return mapper.getDifferenceBetweenStartAndEnd(orderId);
+    }
 }

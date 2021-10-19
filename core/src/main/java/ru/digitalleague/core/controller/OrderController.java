@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.digitalleague.core.api.TaxiService;
 import ru.digitalleague.core.model.OrderDetails;
@@ -19,8 +17,6 @@ import ru.digitalleague.core.model.TaxiDriverInfoModel;
 @Slf4j
 public class OrderController {
 
-    @Autowired
-    private ObjectMapper objectMapper;
     @Autowired
     private TaxiService taxiService;
 
@@ -32,7 +28,7 @@ public class OrderController {
         //log.info("Received message from postman" + orderDetails);
 
        // String result = taxiService.notifyTaxi(orderDetails);
-
+        if (orderDetails == null) return  ResponseEntity.badRequest().body("Неверный формат данных");
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<OrderDetails> request = new HttpEntity<>(orderDetails, headers);
 
@@ -44,5 +40,32 @@ public class OrderController {
 
         log.info(entity.getBody().toString());
         return ResponseEntity.ok("Найден водитель:" + entity.getBody().getFirstName());
+    }
+
+    @PutMapping("/trip-begin")
+    public ResponseEntity<String> beginTrip(@RequestBody String message) {
+        if(message == null) return ResponseEntity.badRequest().body("Неверный формат данных");
+        log.info(message);
+        return ResponseEntity.ok(message);
+    }
+
+    @PutMapping("/trip-complete")
+    public ResponseEntity<String> completeTrip(@RequestBody String message) {
+        if(message == null) return ResponseEntity.badRequest().body("Неверный формат данных");
+        log.info(message);
+        return ResponseEntity.ok(message);
+    }
+
+    @PutMapping("/trip-rate")
+    public ResponseEntity<String> rateTrip(@RequestParam(value = "rate") Integer rate, @RequestParam(value = "order_id") Long orderId) {
+
+        if(rate == null) return ResponseEntity.badRequest().body("Неверный формат данных");
+        int port = taxiService.getPort(orderId);
+
+        ResponseEntity<String> entity = restTemplate.postForEntity("http://localhost:" + port + "/rate-driver?order_id="
+                        + orderId,
+                rate,
+                String.class);
+        return ResponseEntity.ok(entity.getBody());
     }
 }

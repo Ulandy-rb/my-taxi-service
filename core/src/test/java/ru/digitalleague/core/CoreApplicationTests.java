@@ -1,17 +1,15 @@
 package ru.digitalleague.core;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.OffsetDateTime;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ru.digitalleague.core.api.DriverInfoService;
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
-import ru.digitalleague.core.service.TaxiInfoService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CoreApplicationTests {
 
     @Autowired
-    private TaxiInfoService taxiInfoService;
+    private DriverInfoService driverInfoService;
 
     TaxiDriverInfoModel taxiDriverInfoModel = TaxiDriverInfoModel.builder()
             .carModel("BMW")
@@ -35,7 +33,7 @@ class CoreApplicationTests {
         //GIVEN
 
         //WHEN
-        int insert = taxiInfoService.insert(taxiDriverInfoModel);
+        int insert = driverInfoService.insert(taxiDriverInfoModel);
 
         //THAN
         assertThat(insert).isEqualTo(1);
@@ -47,21 +45,21 @@ class CoreApplicationTests {
         //GIVEN
 
         //WHEN
-        taxiInfoService.insert(taxiDriverInfoModel);
+        driverInfoService.insert(taxiDriverInfoModel);
         Long driverId = taxiDriverInfoModel.getDriverId();
 
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                TaxiDriverInfoModel taxiDriverInfoModel1 = taxiInfoService.selectByPrimaryKey(driverId);
+                TaxiDriverInfoModel taxiDriverInfoModel1 = driverInfoService.selectByPrimaryKey(driverId);
                 taxiDriverInfoModel1.setLevel(taxiDriverInfoModel1.getLevel() + 1);
-                taxiInfoService.updateByPrimaryKey(taxiDriverInfoModel1);
+                driverInfoService.updateByPrimaryKey(taxiDriverInfoModel1);
             }
         });
         Thread thread2 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                TaxiDriverInfoModel taxiDriverInfoModel2 = taxiInfoService.selectByPrimaryKey(driverId);
+                TaxiDriverInfoModel taxiDriverInfoModel2 = driverInfoService.selectByPrimaryKey(driverId);
                 taxiDriverInfoModel2.setLevel(taxiDriverInfoModel2.getLevel() + 1);
-                taxiInfoService.updateByPrimaryKey(taxiDriverInfoModel2);
+                driverInfoService.updateByPrimaryKey(taxiDriverInfoModel2);
             }
         });
 
@@ -75,17 +73,17 @@ class CoreApplicationTests {
     @Test
     void update_twoTransactionalInOneSelect() throws InterruptedException {
 
-        taxiInfoService.insert(taxiDriverInfoModel);
+        driverInfoService.insert(taxiDriverInfoModel);
         Long driverId = taxiDriverInfoModel.getDriverId();
 
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                taxiInfoService.getByIdAndUpdateLevel(driverId);
+                driverInfoService.getByIdAndUpdateLevel(driverId);
             }
         });
         Thread thread2 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                taxiInfoService.getByIdAndUpdateLevel(driverId);
+                driverInfoService.getByIdAndUpdateLevel(driverId);
             }
         });
 

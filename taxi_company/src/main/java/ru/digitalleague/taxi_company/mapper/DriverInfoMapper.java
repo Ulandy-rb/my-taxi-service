@@ -4,13 +4,9 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import ru.digitalleague.taxi_company.model.TaxiDriverInfoModel;
 
-import java.util.List;
-
 @Repository
 @Mapper
-public interface TaxiInfoMapper {
-    int getCount();
-
+public interface DriverInfoMapper {
     @Results(id = "drivers", value = {
             @Result(property = "driverId", column = "driver_id"),
             @Result(property = "lastName", column = "last_name"),
@@ -25,19 +21,22 @@ public interface TaxiInfoMapper {
     })
 
     @Select("SELECT * FROM taxi_drive_info tdi " +
-            "where tdi.rating >=all(select rating from taxi_drive_info " +
             "WHERE busyness = false AND city_id = " +
             "(SELECT q.city_id FROM city_queue q where q.name = #{city})" +
-            "and car_model = #{carModel} and level = #{level})" +
-            "and busyness = false AND city_id = " +
-            "(SELECT q.city_id FROM city_queue q where q.name = #{city})" +
-            "and car_model = #{carModel} and level = #{level}" +
-            "fetch first 1 rows only")
-    TaxiDriverInfoModel getDriverByCityWithTopRating(String city, String carModel, int level);
+            "and level = #{level} " +
+            "order by rating " +
+            "limit 1")
+    TaxiDriverInfoModel getDriverByCityWithTopRating(String city, int level);
 
     @Update("update taxi_drive_info set busyness = true where driver_id = #{id} ")
     void setBusy(Long id);
 
     @Update("update taxi_drive_info set busyness = false where driver_id = #{id} ")
     void setFree(Long id);
+
+    @Update("update taxi_drive_info set rating = round(((#{rate} + rating)/2)::numeric,2) where driver_id = #{driver_id}")
+    void rateDriverById(Integer rate, Long driver_id);
+
+    @Select("SELECT minute_cost from taxi_drive_info where driver_id = #{driverId}")
+    Integer getDriverCostById(Long driverId);
 }

@@ -72,4 +72,12 @@
         <sqlFile path="sql/core/alter_order_delete_notnull_driver.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="2021-10-08 19:10:00" author="outarova">
+        <sqlFile path="sql/core/alter_order_total_drop_time.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="sql/core/rollback/alter_order_total_drop_time_rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+
 </databaseChangeLog>

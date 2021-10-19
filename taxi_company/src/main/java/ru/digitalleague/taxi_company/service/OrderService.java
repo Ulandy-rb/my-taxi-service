@@ -8,4 +8,5 @@ public interface OrderService {
     void updateOrderEnd(Long orderId);
     void updateOrderDriver(Long orderId, Long driverId);
     OrderModel getOrder(Long orderId);
+    Integer gerTripDuration(Long orderId);
 }

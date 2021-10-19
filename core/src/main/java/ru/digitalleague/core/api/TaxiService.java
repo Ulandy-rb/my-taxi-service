@@ -14,4 +14,5 @@ public interface TaxiService {
 
     int getPort(OrderDetails orderDetails);
 
+    int getPort(Long orderId);
 }

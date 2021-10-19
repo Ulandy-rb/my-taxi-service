@@ -48,4 +48,11 @@ public interface OrderMapper {
 
     @Select("select * from orders where order_id = #{Id}")
     OrderModel getOrderById(Long Id);
+
+    @Select("select cast(extract(epoch FROM o.end_trip - o.start_trip)/60 as integer) " +
+            "from test.orders o where o.start_trip is not null " +
+            "and o.end_trip is not null " +
+            "and o.order_id = #{orderId}")
+    Integer getDifferenceBetweenStartAndEnd(Long orderId);
+
 }
