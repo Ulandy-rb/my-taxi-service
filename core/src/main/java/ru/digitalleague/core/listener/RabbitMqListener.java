@@ -8,6 +8,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
+/**
+ * Слушатель поездок RabbitMQ
+ * */
 @Component
 @EnableRabbit
 @Slf4j

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.web.client.RestTemplate;
-
 import java.time.Duration;
 
 @Configuration
@@ -19,6 +18,9 @@ import java.time.Duration;
 @EnableRetry
 public class ApplicationConfiguration {
 
+    /**
+     * Бин подключения к БД
+     * */
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
@@ -29,6 +31,9 @@ public class ApplicationConfiguration {
         return dataSourceBuilder.build();
     }
 
+    /**
+     * Бин подключени liquibase
+     * */
     @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
@@ -36,6 +41,8 @@ public class ApplicationConfiguration {
         return liquibase;
     }
 
+    /**
+     * Бин подключения restTemplate для общения между серверами*/
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
 

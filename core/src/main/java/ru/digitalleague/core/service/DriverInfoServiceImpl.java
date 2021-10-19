@@ -47,18 +47,4 @@ public class DriverInfoServiceImpl implements DriverInfoService {
         taxiDriverInfoModel.setLevel(taxiDriverInfoModel.getLevel() + 1);
         return driverInfoMapper.updateByPrimaryKey(taxiDriverInfoModel);
     }
-
-    @SneakyThrows
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public boolean twoSelectByIdWithSleep() {
-
-        String lastName = "Иванов";
-        List<TaxiDriverInfoModel> expected = driverInfoMapper.selectByLastName(lastName);
-        log.debug("Expected size: {}", expected.size());
-        Thread.sleep(5000);
-        List<TaxiDriverInfoModel> actual = driverInfoMapper.selectByLastName(lastName);
-        log.debug("Actual size: {}", actual.size());
-        return expected.size() == actual.size();
-    }
 }

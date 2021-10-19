@@ -2,6 +2,7 @@ package ru.digitalleague.core.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,9 @@ import ru.digitalleague.core.api.TaxiService;
 import ru.digitalleague.core.model.OrderDetails;
 import ru.digitalleague.core.model.TaxiDriverInfoModel;
 
+/**
+ * Контроллеры для такси со стороны клиента
+ * */
 @RestController
 @Slf4j
 public class OrderController {
@@ -23,6 +27,7 @@ public class OrderController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @ApiOperation(value = "Контроллер для заказа такси")
     @PostMapping("/order-taxi")
     public ResponseEntity<String> beginTrip(@RequestBody OrderDetails orderDetails) {
         //log.info("Received message from postman" + orderDetails);
@@ -42,6 +47,7 @@ public class OrderController {
         return ResponseEntity.ok("Найден водитель:" + entity.getBody().getFirstName());
     }
 
+    @ApiOperation(value = "Контроллер для начала поедки")
     @PutMapping("/trip-begin")
     public ResponseEntity<String> beginTrip(@RequestBody String message) {
         if(message == null) return ResponseEntity.badRequest().body("Неверный формат данных");
@@ -49,6 +55,7 @@ public class OrderController {
         return ResponseEntity.ok(message);
     }
 
+    @ApiOperation(value = "Контроллер для конца поездки")
     @PutMapping("/trip-complete")
     public ResponseEntity<String> completeTrip(@RequestBody String message) {
         if(message == null) return ResponseEntity.badRequest().body("Неверный формат данных");
@@ -56,6 +63,7 @@ public class OrderController {
         return ResponseEntity.ok(message);
     }
 
+    @ApiOperation(value = "Контроллер для оценк водителя")
     @PutMapping("/trip-rate")
     public ResponseEntity<String> rateTrip(@RequestParam(value = "rate") Integer rate, @RequestParam(value = "order_id") Long orderId) {
 

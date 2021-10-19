@@ -20,6 +20,11 @@ public interface DriverInfoMapper {
             @Result(property = "busyness", column = "busyness")
     })
 
+    /**
+     * Подобрать водителя для поездки
+     * @param city название города
+     * @param level уровень водителя
+     * */
     @Select("SELECT * FROM taxi_drive_info tdi " +
             "WHERE busyness = false AND city_id = " +
             "(SELECT q.city_id FROM city_queue q where q.name = #{city})" +
@@ -28,15 +33,32 @@ public interface DriverInfoMapper {
             "limit 1")
     TaxiDriverInfoModel getDriverByCityWithTopRating(String city, int level);
 
+    /**
+     * Установить водителя как занят
+     * @param id номер водителя
+     * */
     @Update("update taxi_drive_info set busyness = true where driver_id = #{id} ")
     void setBusy(Long id);
 
+    /**
+     * Установить водителя как свободен
+     * @param id номер водителя
+     * */
     @Update("update taxi_drive_info set busyness = false where driver_id = #{id} ")
     void setFree(Long id);
 
+    /**
+     * Обновить рейтинг водителя
+     * @param rate рейтинг
+     * @param driver_id с
+     * */
     @Update("update taxi_drive_info set rating = round(((#{rate} + rating)/2)::numeric,2) where driver_id = #{driver_id}")
     void rateDriverById(Integer rate, Long driver_id);
 
+    /**
+     * Найти стоимость водителя
+     * @param driverId номер водителя
+     * */
     @Select("SELECT minute_cost from taxi_drive_info where driver_id = #{driverId}")
     Integer getDriverCostById(Long driverId);
 }

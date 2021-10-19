@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
+/**
+ * Настройка MyBatis
+ * */
 @Configuration
 @MapperScan(basePackages = {"ru.digitalleague.core.mapper"})
 public class MyBatisConfig {
